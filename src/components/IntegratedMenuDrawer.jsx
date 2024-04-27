@@ -101,7 +101,7 @@ export default function IntegratedMenuDrawer() {
                   horizontal: 'right'
                 }}
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
+                // onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>

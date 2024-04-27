@@ -14,6 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import {FIREBASE_APP, FIRESTORE_DB} from '../../firebase';
 import { collection, doc, getDocs, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 const SubscriptionCrud = () => {
     const [subscriptions, setSubscriptions] = useState([]);
@@ -41,6 +42,7 @@ const SubscriptionCrud = () => {
     const handleDelete = async (id) => {
         const db = FIRESTORE_DB;
         await deleteDoc(doc(db, 'subscriptiontiers', id));
+        toast.success('Subscription deleted');
         setSubscriptions(subscriptions.filter(subscription => subscription.id !== id));
     };
 
@@ -50,9 +52,11 @@ const SubscriptionCrud = () => {
         if (editId) {
             const docRef = doc(db, 'subscriptiontiers', editId);
             await updateDoc(docRef, formData);
+            toast.success('Subscription updated');
             setSubscriptions(subscriptions.map(subscription => (subscription.id === editId ? { id: editId, ...formData } : subscription)));
         } else {
             const docRef = await addDoc(collection(db, 'subscriptiontiers'), formData);
+            toast.success('Subscription added');
             setSubscriptions([...subscriptions, { id: docRef.id, ...formData }]);
         }
         setOpen(false);

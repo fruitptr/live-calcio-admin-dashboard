@@ -8,10 +8,10 @@ export default function Stats() {
     sx={{
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'flex-start', // Align items to the top
+      alignItems: 'flex-start',
       margin: '0 auto',
       padding: '0 16px',
-      height: '100%', // Set height to 100% to occupy the available space
+      height: '100%',
     }}
     >
       <HandleStats />
