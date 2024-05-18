@@ -20,8 +20,13 @@ import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import logo from './../assets/FYPLOGO.png';
+import { logout } from '../store/authUser/authSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 export default function IntegratedMenuDrawer() {
+  const { isAuthenticated } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -36,7 +41,7 @@ export default function IntegratedMenuDrawer() {
 
   const handleClose = () => {
     setAnchorEl(null);
-    navigate('./login');
+    dispatch(logout());
   };
 
   const handleDrawerOpen = () => {
@@ -50,18 +55,19 @@ export default function IntegratedMenuDrawer() {
   const handleDrawerItemClick = text => {
     setDrawerOpen(false);
     if (text == 'Manage Users') {
-      navigate('/user');
+      navigate('/User');
     } else if (text == 'Manage Subscriptions') {
-      navigate('/subscription');
+      navigate('/Subscription');
     } else if (text == 'Manage Stats') {
-      navigate('/stats');
+      navigate('/Stats');
     }
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      {!isAuthenticated && <Navigate to="/" replace={true} />}
       <AppBar position="static">
-        <Toolbar sx={{ backgroundColor:"#b40000"}}>
+        <Toolbar sx={{ backgroundColor: '#b40000' }}>
           <IconButton
             size="large"
             edge="start"
@@ -72,7 +78,11 @@ export default function IntegratedMenuDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <img src={logo} alt="Logo" style={{ marginRight: '10px', height: '30px' }} />
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ marginRight: '10px', height: '30px' }}
+          />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Admin Dashboard
           </Typography>
